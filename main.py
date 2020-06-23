@@ -17,24 +17,25 @@ searchlist = {'waves': ['brauer', 'scheps', 'motion'], 'dmg': ['track', 'limitle
               'soothe': None, 'soundtheory': ['foss'], 'gullfoss': None, 'u-he': ['presswerk', 'satin'], 'psp': None}
 pagestosearch = 5
 
-
+print("Getting html of KVR's Homepage")
 firstPageEles = KVR_Browser.GetEles(site, homeCategoriesCss)
 pagesOfSellTopics = []
 
-
-# Getting the link for the first page of sell+buy
+print("Searching homepage for Sell & Buy topic")
+# Getting the link for the first page of sell+buy=
 for firstPageElement in firstPageEles:
     if 'Sell & Buy' in firstPageElement.text:
         selltopicslink = site+firstPageElement.get('href')[2:]
         break
 
+print("Creating a list of all sell topics")
 for i in range(0, pagestosearch):
     sellTopics = KVR_Browser.GetEles(
         selltopicslink+f'&start={str(30*i)}', topicsPart1Css, topicsPart2Css)
     # Getting a list of all HTML topic elements on that seller page, as some are of different elements
     pagesOfSellTopics.append(sellTopics)
 
-
+print("Now searching topic titles for your search terms")
 def searchPagesTopics(currentPagesTopics):
     for topic in currentPagesTopics:  # for each topic on the page...
         for term in searchlist:  # and for each dictionary key compared to that topic...
@@ -43,7 +44,8 @@ def searchPagesTopics(currentPagesTopics):
                 # and if that key's value is none, which would happen if the topic title is all you care about...
                 if searchlist[term] == None:
                     # open the post...
-                    webbrowser.open(site + topic.get('href')[2:])
+                    # webbrowser.open(site + topic.get('href')[2:])
+                    print(f'opening {site + topic.get("href")[2:]}')
                     break  # and move onto the next topic on the page.
                 else:  # otherwise, if you're curious what is inside that topic, and not just what's in the title...
                     # Get the link to that topic's page...
@@ -54,7 +56,8 @@ def searchPagesTopics(currentPagesTopics):
                     for product in searchlist[term]:
                         # if one of those values is in the body of the post
                         if product in postbody[0].text.lower():
-                            webbrowser.open(sellerpage)  # Open that page..
+                            # webbrowser.open(sellerpage)  # Open that page..
+                            print(f'opening {sellerpage}')
                             termFoundInBody = True
                             # and move onto the next topic on the original page.
                             break

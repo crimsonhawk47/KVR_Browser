@@ -1,4 +1,4 @@
-import RegisterChrome
+import RegisterChrome, webbrowser
 import os
 from bSoupBrowserClass import BSoupBrowser
 
@@ -17,7 +17,6 @@ pagestosearch = 5
 
 
 firstPageEles = KVR_Browser.GetEles(site, firstPageHTMLPattern)
-BHandle = RegisterChrome.Get('gg')
 pagesOfSellTopics = []
 
 
@@ -37,14 +36,14 @@ def searchPagesTopics(currentPagesTopics):
             termFoundInBody = False
             if term in topic.text.lower(): #if the key is in the topic title
                 if searchlist[term] == None:#and if that key's value is none, which would happen if the topic title is all you care about...
-                    BHandle.open(site + topic.get('href')[2:])#open the post...
+                    webbrowser.open(site + topic.get('href')[2:])#open the post...
                     break #and move onto the next topic on the page. 
                 else:                       #otherwise, if you're curious what is inside that topic, and not just what's in the title...
                     sellerpage = site + topic.get('href')[2:] #Get the link to that topic's page...
                     postbody = KVR_Browser.GetEles(sellerpage, '.content') #Get the posts HTML
                     for product in searchlist[term]: #For every value in the key that got you interested (that's in the topic title)...
                         if product in postbody[0].text.lower(): #if one of those values is in the body of the post
-                            BHandle.open(sellerpage) #Open that page..
+                            webbrowser.open(sellerpage) #Open that page..
                             termFoundInBody = True
                             break #and move onto the next topic on the original page. 
                     if termFoundInBody == True:

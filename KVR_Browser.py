@@ -3,7 +3,7 @@ import os
 from bSoupBrowserClass import BSoupBrowser
 
 site = 'https://www.kvraudio.com/forum/'
-hstring = {'firstPageLinks': '.list-inner > a', 'secondPageLinks': 'li.row.bg1 > dl > dt >.list-inner > .topictitle', 'thirdPageLinks': 'li.row.bg2 > dl > dt >.list-inner > .topictitle' }
+firstPageLinks, secondPageLinks, thirdPageLinks = '.list-inner > a', 'li.row.bg1 > dl > dt >.list-inner > .topictitle', 'li.row.bg2 > dl > dt >.list-inner > .topictitle'
 KVR_Browser = BSoupBrowser()
 
 
@@ -12,7 +12,7 @@ searchlist =  {'waves': ['brauer', 'scheps', 'motion'], 'dmg':['track', 'limitle
 pagestosearch = 5
 
 
-firstPageEles = KVR_Browser.GetEles(site, hstring['firstPageLinks'])
+firstPageEles = KVR_Browser.GetEles(site, firstPageLinks)
 BHandle = RegisterChrome.Get('gg')
 selltopicslinks = []
 selltopics = []
@@ -28,8 +28,8 @@ for i in range(1,pagestosearch):
     selltopicslinks.append(selltopicslinks[0]+'&start='+str(30*i))
 
 for i in range(len(selltopicslinks)):
-    topicspart1 = KVR_Browser.GetEles(selltopicslinks[i], hstring['secondPageLinks'])
-    topicspart2 = KVR_Browser.GetEles(selltopicslinks[i], hstring['thirdPageLinks'])
+    topicspart1 = KVR_Browser.GetEles(selltopicslinks[i], secondPageLinks)
+    topicspart2 = KVR_Browser.GetEles(selltopicslinks[i], thirdPageLinks)
     selltopics.append(topicspart1 + topicspart2) #Getting a list of all HTML topic elements on that seller page, as some are of different elements
 
 def searchKVR(topics):

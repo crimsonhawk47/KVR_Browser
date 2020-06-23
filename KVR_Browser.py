@@ -18,7 +18,7 @@ pagestosearch = 5
 
 firstPageEles = KVR_Browser.GetEles(site, firstPageHTMLPattern)
 BHandle = RegisterChrome.Get('gg')
-selltopics = []
+pagesOfSellTopics = []
 
 
 #Getting the link for the first page of sell+buy
@@ -28,11 +28,11 @@ for firstPageElement in firstPageEles:
         break
 
 for i in range(0, pagestosearch):
-    topicspart1 = KVR_Browser.GetEles(selltopicslink+f'&start={str(30*i)}', secondPageHTMLPattern, thirdPageHTMLPattern)
-    selltopics.append(topicspart1) #Getting a list of all HTML topic elements on that seller page, as some are of different elements
+    sellTopics = KVR_Browser.GetEles(selltopicslink+f'&start={str(30*i)}', secondPageHTMLPattern, thirdPageHTMLPattern)
+    pagesOfSellTopics.append(sellTopics) #Getting a list of all HTML topic elements on that seller page, as some are of different elements
 
-def searchKVR(topics):
-    for topic in topics: #for each topic on the page...
+def searchPagesTopics(currentPagesTopics):
+    for topic in currentPagesTopics: #for each topic on the page...
         for term in searchlist: #and for each dictionary key compared to that topic...
             termFoundInBody = False
             if term in topic.text.lower(): #if the key is in the topic title
@@ -51,7 +51,7 @@ def searchKVR(topics):
                         break
 
 for time in range(pagestosearch):
-    searchKVR(selltopics[time])
+    searchPagesTopics(pagesOfSellTopics[time])
 
 #BHandle.close()
 

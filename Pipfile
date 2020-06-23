@@ -5,13 +5,11 @@ verify_ssl = true
 
 [dev-packages]
 pylint = "*"
-rope = "*"
 
 [packages]
 bs4 = "*"
 requests = "*"
 lxml = "*"
-dotenv = "*"
 
 [requires]
 python_version = "3.7"

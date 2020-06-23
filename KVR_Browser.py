@@ -24,11 +24,11 @@ selltopics = []
 #Getting the link for the first page of sell+buy
 for firstPageElement in firstPageEles:
     if 'Sell & Buy' in firstPageElement.text:
-        selltopicslinks = site+firstPageElement.get('href')[2:]
+        selltopicslink = site+firstPageElement.get('href')[2:]
         break
 
 for i in range(0, pagestosearch):
-    topicspart1 = KVR_Browser.GetEles(selltopicslinks+f'&start={str(30*i)}', secondPageHTMLPattern, thirdPageHTMLPattern)
+    topicspart1 = KVR_Browser.GetEles(selltopicslink+f'&start={str(30*i)}', secondPageHTMLPattern, thirdPageHTMLPattern)
     selltopics.append(topicspart1) #Getting a list of all HTML topic elements on that seller page, as some are of different elements
 
 def searchKVR(topics):

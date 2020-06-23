@@ -14,7 +14,7 @@ KVR_Browser = BSoupBrowser()
 
 # custom section
 searchlist = {'waves': ['brauer', 'scheps', 'motion'], 'dmg': ['track', 'limitless'], 'oeksound': None,
-              'soothe': None, 'soundtheory': ['foss'], 'gullfoss': None, 'u-he': ['presswerk', 'satin'], 'psp': None}
+              'soothe': None, 'soundtheory': ['foss'], 'gullfoss': None, 'u-he': ['presswerk', 'satin'], 'psp': 'mixpack2', 'sly-fi': 'deflector'}
 pagestosearch = 5
 
 print("Getting html of KVR's Homepage")

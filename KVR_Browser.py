@@ -28,9 +28,8 @@ for firstPageElement in firstPageEles:
         break
 
 for i in range(0, pagestosearch):
-    topicspart1 = KVR_Browser.GetEles(selltopicslinks+f'&start={str(30*i)}', secondPageHTMLPattern)
-    topicspart2 = KVR_Browser.GetEles(selltopicslinks+f'&start={str(30*i)}', thirdPageHTMLPattern)
-    selltopics.append(topicspart1 + topicspart2) #Getting a list of all HTML topic elements on that seller page, as some are of different elements
+    topicspart1 = KVR_Browser.GetEles(selltopicslinks+f'&start={str(30*i)}', secondPageHTMLPattern, thirdPageHTMLPattern)
+    selltopics.append(topicspart1) #Getting a list of all HTML topic elements on that seller page, as some are of different elements
 
 def searchKVR(topics):
     for topic in topics: #for each topic on the page...

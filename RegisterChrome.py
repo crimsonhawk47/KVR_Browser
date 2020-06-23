@@ -5,6 +5,6 @@ def Get(str):
     else:
         chromePath = os.environ['MAC_CHROME_PATH']
     webbrowser.register(str, None, webbrowser.BackgroundBrowser(chromePath))
-    return webbrowser.get(str);
+    return webbrowser.get(str)
 
 

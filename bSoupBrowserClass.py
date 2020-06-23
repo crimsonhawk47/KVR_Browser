@@ -2,12 +2,15 @@ import requests, bs4
 class BSoupBrowser:
     def __init__(self):
         self.searchedeles = []
-    def GetEles(self, sitelink, htmlpath):
+    def GetEles(self, sitelink, *htmlPaths):
         res = requests.get(sitelink, headers={ #Fakes a user
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.110 Safari/537.36"})
         res.raise_for_status()
         oSoup = bs4.BeautifulSoup(res.text, features = 'lxml')
-        return oSoup.select(htmlpath)
+        listOfElements = []
+        for htmlPath in htmlPaths:
+            listOfElements += oSoup.select(htmlPath)
+        return listOfElements
 
     def SearchEles(self, sitelink, htmlpath, searchterm, anchor = False):
         eles = self.GetEles(sitelink, htmlpath)

@@ -1,22 +1,20 @@
 import RegisterChrome
-import os, json, webbrowser
+import os
+import json
+import webbrowser
 from bSoupBrowserClass import BSoupBrowser
 
 # custom section
 site = 'https://www.kvraudio.com/forum/'
 
-homeCategoriesCss, topicsPart1Css, topicsPart2Css = ['.list-inner > a',
-                                                     'li.row.bg1 > dl > dt >.list-inner > .topictitle',
-                                                     'li.row.bg2 > dl > dt >.list-inner > .topictitle']
-
-searchlist = json.load(open('./config/searchlist.json'))
+searchlist = json.load(open('./config/constants.json'))['searchList']
 
 pagestosearch = 5
 
 ####
 KVR_Browser = BSoupBrowser()
 print("Getting html of KVR's Homepage")
-forumElements = KVR_Browser.GetEles(site, homeCategoriesCss)
+forumElements = KVR_Browser.GetEles(site, ".list-inner > a")
 print("Searching homepages elements for a Sell & Buy topic")
 # Getting the link for the first page of sell+buy=
 sellRelativePath = next(element.get('href')
@@ -28,7 +26,7 @@ print("Creating a list of all paginated links for the sell&buy section of the si
 pageUrls = [marketplaceUrl +
             f'&start={str(30*page)}' for page in range(pagestosearch)]
 pagesOfSellTopics = [KVR_Browser.GetEles(
-    x, topicsPart1Css, topicsPart2Css) for x in pageUrls]
+    x, ".topics .topictitle") for x in pageUrls]
 
 
 def searchPagesTopics(currentPagesTopics):

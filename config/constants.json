@@ -1,0 +1,31 @@
+{
+    "searchList": {
+        "waves": [
+            "brauer",
+            "scheps",
+            "motion"
+        ],
+        "dmg": [
+            "track",
+            "limitless"
+        ],
+        "oeksound": false,
+        "soothe": false,
+        "soundtheory": [
+            "foss"
+        ],
+        "gullfoss": false,
+        "u-he": [
+            "presswerk",
+            "satin"
+        ],
+        "psp": [
+            "mixpack2"
+        ],
+        "sly-fi": [
+            "deflector"
+        ]
+    },
+    "homeCategoriesCss": ".list-inner > a",
+    "topicsCss": ".topics .topictitle"
+}

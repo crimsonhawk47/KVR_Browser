@@ -1,6 +1,5 @@
 import RegisterChrome
-import webbrowser
-import os
+import os, json, webbrowser
 from bSoupBrowserClass import BSoupBrowser
 
 # custom section
@@ -9,24 +8,27 @@ site = 'https://www.kvraudio.com/forum/'
 homeCategoriesCss, topicsPart1Css, topicsPart2Css = ['.list-inner > a',
                                                      'li.row.bg1 > dl > dt >.list-inner > .topictitle',
                                                      'li.row.bg2 > dl > dt >.list-inner > .topictitle']
-searchlist = {'waves': ['brauer', 'scheps', 'motion'], 'dmg': ['track', 'limitless'], 'oeksound': None,
-              'soothe': None, 'soundtheory': ['foss'], 'gullfoss': None, 'u-he': ['presswerk', 'satin'], 'psp': 'mixpack2', 'sly-fi': 'deflector'}
+
+searchlist = json.load(open('./config/searchlist.json'))
+
 pagestosearch = 5
 
 ####
-print('Creating BSoupBrowser object')
 KVR_Browser = BSoupBrowser()
 print("Getting html of KVR's Homepage")
-homeCategoryForums = KVR_Browser.GetEles(site, homeCategoriesCss)
+forumElements = KVR_Browser.GetEles(site, homeCategoriesCss)
 print("Searching homepages elements for a Sell & Buy topic")
 # Getting the link for the first page of sell+buy=
-sellRelativePath = next(firstPageElement.get('href') for firstPageElement in homeCategoryForums if 'Sell & Buy' in firstPageElement.text)
-sellUrl = site+sellRelativePath[2:]
+sellRelativePath = next(element.get('href')
+                        for element in forumElements if 'Sell & Buy' in element.text)
+# Turning relative path into an actual url
+marketplaceUrl = site+sellRelativePath[2:]
 
-# sellTopicsLink = site+firstPageElement if 'Sell & Buy' in firstPageElement.text for firstPageElement in firstPageEles
-
-print("Creating a list of all sell topics")
-linksToSellerTopics = [KVR_Browser.GetEles(sellUrl+f'&start={str(30*page)}', topicsPart1Css, topicsPart2Css) for page in range(0, pagestosearch)]
+print("Creating a list of all paginated links for the sell&buy section of the site")
+pageUrls = [marketplaceUrl +
+            f'&start={str(30*page)}' for page in range(pagestosearch)]
+pagesOfSellTopics = [KVR_Browser.GetEles(
+    x, topicsPart1Css, topicsPart2Css) for x in pageUrls]
 
 
 def searchPagesTopics(currentPagesTopics):
@@ -35,8 +37,8 @@ def searchPagesTopics(currentPagesTopics):
         topicLink = site + topicElement.get('href')[2:]
         for term in searchlist:  # and for each dictionary key compared to that topic...
             if term in topicTitle:  # if the key is in the topic title
-                # and if that key's value is none, which would happen if the topic title is all you care about...
-                if searchlist[term] == None:
+                # and if that key's value is false, which would happen if the topic title is all you care about...
+                if searchlist[term] == False:
                     # open the post...
                     # webbrowser.open(topicLink)
                     print(f'opening {topicLink}')
@@ -52,8 +54,7 @@ def searchPagesTopics(currentPagesTopics):
                         print(f'opening {topicLink}')
                         break
 
+
 print("Now searching topic titles for your search terms")
 for time in range(pagestosearch):
-    searchPagesTopics(linksToSellerTopics[time])
-
-# BHandle.close()
+    searchPagesTopics(pagesOfSellTopics[time])

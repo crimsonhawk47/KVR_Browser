@@ -1,7 +1,7 @@
 import requests, bs4
 class BSoupBrowser:
     def __init__(self):
-        self.searchedeles = []
+        self.lastSearchedEles = []
         self.count = 0
     def GetEles(self, sitelink, initialHtmlPath, *extraHtmlPaths):
         print(f'Get Eles has run {self.count} times')
@@ -13,44 +13,5 @@ class BSoupBrowser:
         listOfElements = oSoup.select(initialHtmlPath)
         for htmlPath in extraHtmlPaths:
             listOfElements += oSoup.select(htmlPath)
+        self.lastSearchedEles = listOfElements
         return listOfElements
-
-    def SearchEles(self, sitelink, htmlpath, searchterm, anchor = False):
-        eles = self.GetEles(sitelink, htmlpath)
-        searchedeles = []
-        searchedelesD = {}
-        if isinstance(searchterm, list):
-            for i in eles:
-                for q in searchterm:
-                    if q in i.text.lower():
-                        if i.get('href'):
-                            link = i.get('href')
-                            if link[0] == '.':
-                                link = sitelink+link[2:]
-                            searchedelesD[i.text] = link
-                        else:
-                            #print('match:',i.text)
-                            searchedeles.append(i.text)
-                    break
-            if i.get('href'):
-                return searchedelesD
-            else:
-                return searchedeles
-        elif isinstance(searchterm, str):
-            for i in eles:
-                if searchterm in i.text.lower():
-                    if i.get('href'):
-                        link = i.get('href')
-                        if link[0] == '.':
-                            link = sitelink+link[2:]
-                        searchedelesD[i.text] = link
-                    else:
-                        #print('match:',i.text)
-                        searchedeles.append(i.text)
-            if i.get('href'):
-                return searchedelesD
-            else:
-                return searchedeles
-        else:
-            print('type of term is', type(searchterm))
-            return 0

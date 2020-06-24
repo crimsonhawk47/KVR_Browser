@@ -22,7 +22,7 @@ sellRelativePath = next(element.get('href')
 # Turning relative path into an actual url
 marketplaceUrl = site+sellRelativePath[2:]
 
-print("Creating a list of all paginated links for the sell&buy section of the site")
+print(f"Downloading {pagestosearch} pages worth of HTML from seller topics")
 pageUrls = [marketplaceUrl +
             f'&start={str(30*page)}' for page in range(pagestosearch)]
 pagesOfSellTopics = [KVR_Browser.GetEles(

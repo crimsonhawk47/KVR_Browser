@@ -12,6 +12,7 @@ rope = "*"
 bs4 = "*"
 requests = "*"
 lxml = "*"
+pytest = "*"
 
 [requires]
 python_version = "3.7"

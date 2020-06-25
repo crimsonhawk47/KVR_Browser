@@ -4,27 +4,26 @@ import json
 import webbrowser
 from bSoupBrowserClass import BSoupBrowser
 
-# custom section
-site = 'https://www.kvraudio.com/forum/'
-
-searchlist = json.load(open('./config/constants.json'))['searchList']
-
-pagestosearch = 5
+# Getting constants
+constants = json.load(open('./config/constants.json'))
+searchList = constants['searchList']
+pagesToSearch = constants["pagesToSearch"]
+kvr_url = "https://www.kvraudio.com/forum/"
 
 ####
 KVR_Browser = BSoupBrowser()
 print("Getting html of KVR's Homepage")
-forumElements = KVR_Browser.GetEles(site, ".list-inner > a")
+forumElements = KVR_Browser.GetEles(kvr_url, ".list-inner > a")
 print("Searching homepages elements for a Sell & Buy topic")
 # Getting the link for the first page of sell+buy=
 sellRelativePath = next(element.get('href')
                         for element in forumElements if 'Sell & Buy' in element.text)
 # Turning relative path into an actual url
-marketplaceUrl = site+sellRelativePath[2:]
+marketplaceUrl = kvr_url+sellRelativePath[2:]
 
-print(f"Downloading {pagestosearch} pages worth of HTML from seller topics")
+print(f"Downloading {pagesToSearch} pages worth of HTML from seller topics")
 pageUrls = [marketplaceUrl +
-            f'&start={str(30*page)}' for page in range(pagestosearch)]
+            f'&start={str(30*page)}' for page in range(pagesToSearch)]
 pagesOfSellTopics = [KVR_Browser.GetEles(
     x, ".topics .topictitle") for x in pageUrls]
 
@@ -32,11 +31,11 @@ pagesOfSellTopics = [KVR_Browser.GetEles(
 def searchPagesTopics(currentPagesTopics):
     for topicElement in currentPagesTopics:  # for each topic on the page...
         topicTitle = topicElement.text.lower()
-        topicLink = site + topicElement.get('href')[2:]
-        for term in searchlist:  # and for each dictionary key compared to that topic...
+        topicLink = kvr_url + topicElement.get('href')[2:]
+        for term in searchList:  # and for each dictionary key compared to that topic...
             if term in topicTitle:  # if the key is in the topic title
                 # and if that key's value is false, which would happen if the topic title is all you care about...
-                if searchlist[term] == False:
+                if searchList[term] == False:
                     # open the post...
                     # webbrowser.open(topicLink)
                     print(f'opening {topicLink}')
@@ -47,12 +46,12 @@ def searchPagesTopics(currentPagesTopics):
                         topicLink, '.content')  # Get the posts HTML
                     postBody = contentElements[0].text.lower()
                     # Check if any of the specific products are in the post body
-                    if any(product in postBody for product in searchlist[term]):
+                    if any(product in postBody for product in searchList[term]):
                         # webbrowser.open(topicLink)
                         print(f'opening {topicLink}')
                         break
 
 
 print("Now searching topic titles for your search terms")
-for time in range(pagestosearch):
+for time in range(pagesToSearch):
     searchPagesTopics(pagesOfSellTopics[time])

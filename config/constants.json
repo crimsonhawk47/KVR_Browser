@@ -26,6 +26,7 @@
             "deflector"
         ]
     },
+    "pagesToSearch": 5,
     "homeCategoriesCss": ".list-inner > a",
     "topicsCss": ".topics .topictitle"
 }

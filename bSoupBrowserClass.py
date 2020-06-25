@@ -34,7 +34,7 @@ class BSoupBrowser:
     def MakeSoup(self, *text):
         # print(text)
         if text:
-            soupObject = bs4.BeautifulSoup(text, features='lxml')
+            soupObject = bs4.BeautifulSoup(text[0], features='lxml')
             self.soup = soupObject
         else:
             soupObject = bs4.BeautifulSoup(self.response.text, features='lxml')

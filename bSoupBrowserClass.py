@@ -2,7 +2,7 @@ import requests, bs4
 class BSoupBrowser:
     def __init__(self):
         self.lastSearchedEles = []
-        self.getElesRunCount = 0
+        self.__getElesRunCount = 0
     def __GetResponse(self, siteLink):
         response = requests.get(siteLink, headers={ #Fakes a user
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.110 Safari/537.36"})

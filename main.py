@@ -53,5 +53,5 @@ def searchPagesTopics(currentPagesTopics):
 
 
 print("Now searching topic titles for your search terms")
-for time in range(pagesToSearch):
-    searchPagesTopics(pagesOfSellTopics[time])
+for pageIndex in range(pagesToSearch):
+    searchPagesTopics(pagesOfSellTopics[pageIndex])

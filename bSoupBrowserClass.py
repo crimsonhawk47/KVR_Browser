@@ -16,15 +16,15 @@ class BSoupBrowser:
         self.response = response
         return self.response
 
-    def GetEles(self,  initialCssSelector, *extraCssSelectors, site=False):
+    def SelectByCss(self,  initialCssSelector, *extraCssSelectors, site=False):
         # print(f'Get Eles has run {self.__getElesRunCount} times')
         # self.__getElesRunCount+= 1
         if site:
-            res = self.GetResponse(site)
-            self.MakeSoup(res.text)
+            self.GetResponse(site)
+            self.MakeSoup(self.response.text)
         elif self.soup == None:
             raise RuntimeError(
-                "Tried to use GetEles before any response was gotten")
+                "Tried to use GetEles before soup was created")
         listOfElements = self.soup.select(initialCssSelector)
         for selector in extraCssSelectors:
             listOfElements += self.soup.select(selector)
@@ -35,8 +35,7 @@ class BSoupBrowser:
         # print(text)
         if text:
             soupObject = bs4.BeautifulSoup(text[0], features='lxml')
-            self.soup = soupObject
         else:
             soupObject = bs4.BeautifulSoup(self.response.text, features='lxml')
-            self.soup = soupObject
+        self.soup = soupObject
         return self.soup

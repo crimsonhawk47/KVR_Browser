@@ -6,12 +6,12 @@ browser.MakeSoup()
 
 
 def test_wikipedia_title():
-    titleElement = browser.GetEles("#firstHeading")[0]
+    titleElement = browser.SelectByCss("#firstHeading")[0]
     title = titleElement.text
     assert "Python" in title
 
 def test_python_website_is_listed():
-    infoboxElement = browser.GetEles('.infobox a')
+    infoboxElement = browser.SelectByCss('.infobox a')
     pythonWebsite = next(url.text for url in infoboxElement if "python.org" in url.text)
     assert pythonWebsite == "www.python.org"
 
@@ -19,6 +19,6 @@ def test_wikipedia_static_title():
     file = open('./tests/soup_browser/pythonWikipedia.html')
     text = file.read()
     browser.MakeSoup(text)
-    titleElement = browser.GetEles('#firstHeading')[0]
+    titleElement = browser.SelectByCss('#firstHeading')[0]
     title = titleElement.text
     assert "Python" in title

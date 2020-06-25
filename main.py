@@ -13,7 +13,7 @@ kvr_url = "https://www.kvraudio.com/forum/"
 ####
 KVR_Browser = BSoupBrowser()
 print("Getting html of KVR's Homepage")
-forumElements = KVR_Browser.GetEles(".list-inner > a", site=kvr_url)
+forumElements = KVR_Browser.SelectByCss(".list-inner > a", site=kvr_url)
 print("Searching homepages elements for a Sell & Buy topic")
 # Getting the link for the first page of sell+buy=
 sellRelativePath = next(element.get('href')
@@ -24,7 +24,7 @@ marketplaceUrl = kvr_url+sellRelativePath[2:]
 print(f"Downloading {pagesToSearch} pages worth of HTML from seller topics")
 pageUrls = [marketplaceUrl +
             f'&start={str(30*page)}' for page in range(pagesToSearch)]
-pagesOfSellTopics = [KVR_Browser.GetEles(
+pagesOfSellTopics = [KVR_Browser.SelectByCss(
     ".topics .topictitle", site=x) for x in pageUrls]
 
 
@@ -42,7 +42,7 @@ def searchPagesTopics(currentPagesTopics):
                     break  # and move onto the next topic on the page.
                 else:  # otherwise, if you're curious what is inside that topic, and not just what's in the title...
                     # Get the link to that topic's page...
-                    contentElements = KVR_Browser.GetEles(
+                    contentElements = KVR_Browser.SelectByCss(
                         '.content', site=topicLink)  # Get the posts HTML
                     postBody = contentElements[0].text.lower()
                     # Check if any of the specific products are in the post body

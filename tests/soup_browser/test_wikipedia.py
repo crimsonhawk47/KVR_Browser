@@ -17,8 +17,7 @@ def test_python_website_is_listed():
 
 def test_wikipedia_static_title():
     file = open('./tests/soup_browser/pythonWikipedia.html')
-    text = file.read()
-    browser.MakeSoup(text)
+    browser.MakeSoup(file)
     titleElement = browser.SelectByCss('#firstHeading')[0]
     title = titleElement.text
     assert "Python" in title

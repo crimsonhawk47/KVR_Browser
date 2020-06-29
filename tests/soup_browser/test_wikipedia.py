@@ -15,9 +15,3 @@ def test_python_website_is_listed():
     pythonWebsite = next(url.text for url in infoboxElement if "python.org" in url.text)
     assert pythonWebsite == "www.python.org"
 
-def test_wikipedia_static_title():
-    file = open('./tests/soup_browser/pythonWikipedia.html')
-    browser.MakeSoup(file)
-    titleElement = browser.SelectByCss('#firstHeading')[0]
-    title = titleElement.text
-    assert "Python" in title

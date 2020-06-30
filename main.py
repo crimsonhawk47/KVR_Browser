@@ -10,23 +10,27 @@ searchList = constants['searchList']
 pagesToSearch = constants["pagesToSearch"]
 kvr_url = "https://www.kvraudio.com/forum/"
 
-####
 KVR_Browser = BSoupBrowser()
-print("Getting html of KVR's Homepage")
-forumElements = KVR_Browser.SelectByCss(".list-inner > a", site=kvr_url)
-print("Searching homepages elements for a Sell & Buy topic")
-# Getting the link for the first page of sell+buy=
-sellRelativePath = next(element.get('href')
-                        for element in forumElements if 'Sell & Buy' in element.text)
-# Turning relative path into an actual url
-marketplaceUrl = kvr_url+sellRelativePath[2:]
 
-print(f"Downloading {pagesToSearch} pages worth of HTML from seller topics")
-pageUrls = [marketplaceUrl +
-            f'&start={str(30*page)}' for page in range(pagesToSearch)]
-pagesOfSellTopics = [KVR_Browser.SelectByCss(
-    ".topics .topictitle", site=x) for x in pageUrls]
+def main():
+    print("Getting html of KVR's Homepage")
+    forumElements = KVR_Browser.SelectByCss(".list-inner > a", site=kvr_url)
+    print("Searching homepages elements for a Sell & Buy topic")
+    # Getting the link for the first page of sell+buy=
+    sellRelativePath = next(element.get('href')
+                            for element in forumElements if 'Sell & Buy' in element.text)
+    # Turning relative path into an actual url
+    marketplaceUrl = kvr_url+sellRelativePath[2:]
 
+    print(f"Downloading {pagesToSearch} pages worth of HTML from seller topics")
+    pageUrls = [marketplaceUrl +
+                f'&start={str(30*page)}' for page in range(pagesToSearch)]
+    pagesOfSellTopics = [KVR_Browser.SelectByCss(
+        ".topics .topictitle", site=x) for x in pageUrls]
+
+    print("Now searching topic titles for your search terms")
+    for pageIndex in range(pagesToSearch):
+        searchPagesTopics(pagesOfSellTopics[pageIndex])
 
 def searchPagesTopics(currentPagesTopics):
     for topicElement in currentPagesTopics:  # for each topic on the page...
@@ -51,7 +55,7 @@ def searchPagesTopics(currentPagesTopics):
                         print(f'opening {topicLink}')
                         break
 
+if __name__ == "__main__":
+    main()
 
-print("Now searching topic titles for your search terms")
-for pageIndex in range(pagesToSearch):
-    searchPagesTopics(pagesOfSellTopics[pageIndex])
+

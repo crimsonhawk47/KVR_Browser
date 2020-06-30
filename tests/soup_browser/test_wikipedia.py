@@ -1,4 +1,4 @@
-from bSoupBrowserClass import BSoupBrowser
+from src.bSoupBrowserClass import BSoupBrowser
 browser = BSoupBrowser()
 site = "https://en.wikipedia.org/wiki/Python_(programming_language)"
 browser.GetResponse(site)

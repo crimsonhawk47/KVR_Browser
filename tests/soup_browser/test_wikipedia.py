@@ -1,4 +1,5 @@
 from src.bSoupBrowserClass import BSoupBrowser
+import pytest
 browser = BSoupBrowser()
 site = "https://en.wikipedia.org/wiki/Python_(programming_language)"
 browser.GetResponse(site)

@@ -1,11 +1,12 @@
-import RegisterChrome
+import src.RegisterChrome
 import os
 import json
 import webbrowser
-from bSoupBrowserClass import BSoupBrowser
+from src.bSoupBrowserClass import BSoupBrowser
 
 # Getting constants
-constants = json.load(open('./config/constants.json'))
+with open('./config/constants.json') as jsonFile:
+    constants = json.load(jsonFile)
 searchList = constants['searchList']
 pagesToSearch = constants["pagesToSearch"]
 kvr_url = "https://www.kvraudio.com/forum/"

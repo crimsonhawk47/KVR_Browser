@@ -17,3 +17,8 @@ absl-py = "*"
 
 [requires]
 python_version = "3.7"
+
+[scripts]
+test = "pytest -s tests"
+main = "python -m src.Scraper"
+

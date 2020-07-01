@@ -1,4 +1,4 @@
-from src.bSoupBrowserClass import BSoupBrowser
+from KVR_Browser.src.bSoupBrowserClass import BSoupBrowser
 from bs4 import BeautifulSoup
 import pytest
 

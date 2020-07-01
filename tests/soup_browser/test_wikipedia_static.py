@@ -1,9 +1,11 @@
 from src.bSoupBrowserClass import BSoupBrowser
+import pytest
 browser = BSoupBrowser()
 site = "https://en.wikipedia.org/wiki/Python_(programming_language)"
 browser.GetResponse(site)
 browser.MakeSoup()
 
+@pytest.mark.static
 def test_wikipedia_static_title():
     file = open('./tests/soup_browser/pythonWikipedia.html')
     browser.MakeSoup(file)

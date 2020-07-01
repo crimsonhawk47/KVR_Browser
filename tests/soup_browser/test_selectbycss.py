@@ -7,13 +7,13 @@ import pytest
 def browser():
     return BSoupBrowser()
 
-
+@pytest.mark.static
 def test_selectbycss_with_no_file_or_response(browser):
     with pytest.raises(RuntimeError):
         cssPath = ".topics .topictitle"
         assert browser.SelectByCss(cssPath)
 
-
+@pytest.mark.static
 def test_selectbycss_with_file(browser):
     listOfElements = None
     with open('./tests/soup_browser/pythonWikipedia.html', encoding="utf-8") as file:

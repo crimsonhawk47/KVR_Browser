@@ -1,4 +1,4 @@
-import KVR_Browser.src.RegisterChrome
+import RegisterChrome
 import os
 import json
 import webbrowser

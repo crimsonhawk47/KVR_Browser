@@ -1,6 +1,6 @@
 import pytest
 from bs4 import BeautifulSoup
-from KVR_Browser.src.bSoupBrowserClass import BSoupBrowser
+from bSoupBrowserClass import BSoupBrowser
 
 
 @pytest.mark.static

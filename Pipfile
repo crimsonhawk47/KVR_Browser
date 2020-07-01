@@ -7,6 +7,7 @@ verify_ssl = true
 pylint = "*"
 autopep8 = "*"
 rope = "*"
+mypy = "*"
 
 [packages]
 bs4 = "*"
@@ -21,4 +22,3 @@ python_version = "3.7"
 [scripts]
 test = "pytest -s tests"
 main = "python -m src.Scraper"
-

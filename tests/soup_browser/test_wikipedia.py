@@ -1,6 +1,7 @@
 from src.bSoupBrowserClass import BSoupBrowser
 import pytest
-    
+
+
 @pytest.fixture(scope='module')
 def browser():
     browser = BSoupBrowser()
@@ -9,6 +10,7 @@ def browser():
     browser.MakeSoup()
     print('--------------setup----------------')
     return browser
+
 
 @pytest.mark.rest
 def test_wikipedia_title(browser):

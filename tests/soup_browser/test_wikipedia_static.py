@@ -1,16 +1,14 @@
 from src.bSoupBrowserClass import BSoupBrowser
+from bs4 import BeautifulSoup
 import pytest
-browser = BSoupBrowser()
-file = open('./tests/soup_browser/pythonWikipedia.html', encoding="utf-8")
+
 
 @pytest.mark.static
 def test_wikipedia_static_title():
-    browser.MakeSoup(file = file)
-    titleElement = browser.SelectByCss('#firstHeading')[0]
-    title = titleElement.text
-    assert "Python" in title
-
-def test_using_makesoup_before_getting_response():
-    browser = BSoupBrowser()
-    with pytest.raises(RuntimeError):
-        assert browser.MakeSoup()
+    with open('./tests/soup_browser/pythonWikipedia.html', encoding="utf-8") as file:
+        browser = BSoupBrowser()
+        browser.MakeSoup(file=file)
+        assert isinstance(browser.soup, BeautifulSoup)
+        titleElement = browser.SelectByCss('#firstHeading')[0]
+        title = titleElement.text
+        assert "Python" in title

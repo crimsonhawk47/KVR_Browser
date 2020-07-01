@@ -1,23 +1,20 @@
-import src.RegisterChrome
+import KVR_Browser.src.RegisterChrome
 import os
 import json
 import webbrowser
-from src.bSoupBrowserClass import BSoupBrowser
+from bSoupBrowserClass import BSoupBrowser
 
 # Getting constants
 with open('./config/constants.json') as jsonFile:
-    constants = json.load(jsonFile)
-searchList = constants['searchList']
-pagesToSearch = constants["pagesToSearch"]
+    config = json.load(jsonFile)
+searchList = config['searchList']
+pagesToSearch = config["pagesToSearch"]
 kvr_url = "https://www.kvraudio.com/forum/"
 
 KVR_Browser = BSoupBrowser()
 
-def main():
-    print("Getting html of KVR's Homepage")
-    forumElements = KVR_Browser.SelectByCss(".list-inner > a", site=kvr_url)
-    print("Searching homepages elements for a Sell & Buy topic")
-    # Getting the link for the first page of sell+buy=
+def getSellerPages(forumElements, KVR_Browser):
+    
     sellRelativePath = next(element.get('href')
                             for element in forumElements if 'Sell & Buy' in element.text)
     # Turning relative path into an actual url
@@ -26,8 +23,16 @@ def main():
     print(f"Downloading {pagesToSearch} pages worth of HTML from seller topics")
     pageUrls = [marketplaceUrl +
                 f'&start={str(30*page)}' for page in range(pagesToSearch)]
-    pagesOfSellTopics = [KVR_Browser.SelectByCss(
+    return [KVR_Browser.SelectByCss(
         ".topics .topictitle", site=x) for x in pageUrls]
+
+def main():
+    print("Getting html of KVR's Homepage")
+    forumElements = KVR_Browser.SelectByCss(".list-inner > a", site=kvr_url)
+    print("Searching homepages elements for a Sell & Buy topic")
+    # Getting the link for the first page of sell+buy=
+    
+    pagesOfSellTopics = getSellerPages(forumElements, KVR_Browser)
 
     print("Now searching topic titles for your search terms")
     for pageIndex in range(pagesToSearch):

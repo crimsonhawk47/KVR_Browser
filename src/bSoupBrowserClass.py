@@ -9,6 +9,13 @@ class BSoupBrowser:
         self.soup = None
         # self.__getElesRunCount = 0
 
+    def __GetListOfElements(self, initialCssSelector, *extraCssSelectors):
+        listOfElements = self.soup.select(initialCssSelector)
+        for selector in extraCssSelectors:
+            listOfElements += self.soup.select(selector)
+        self.lastSearchedEles = listOfElements
+        return listOfElements
+
     def GetResponse(self, site):
         response = requests.get(site, headers={  # Fakes a user
             "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.110 Safari/537.36"})
@@ -27,12 +34,7 @@ class BSoupBrowser:
         elif self.soup == None:
             raise RuntimeError(
                 "Tried to use GetEles before soup was created")
-        else:
-            listOfElements = self.soup.select(initialCssSelector)
-            for selector in extraCssSelectors:
-                listOfElements += self.soup.select(selector)
-            self.lastSearchedEles = listOfElements
-            return listOfElements
+        return self.__GetListOfElements(initialCssSelector, *extraCssSelectors)
 
     def MakeSoup(self, file=None):
         # print(text)
@@ -47,3 +49,9 @@ class BSoupBrowser:
                     self.response.text, features='lxml')
         self.soup = soupObject
         return self.soup
+
+    def hasSoup(self):
+        return True if self.soup else False
+
+    def hasResponse(self):
+        return True if self.response else False

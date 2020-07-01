@@ -7,7 +7,7 @@ browser.MakeSoup()
 
 @pytest.mark.static
 def test_wikipedia_static_title():
-    file = open('./tests/soup_browser/pythonWikipedia.html')
+    file = open('./tests/soup_browser/pythonWikipedia.html', encoding="utf-8")
     browser.MakeSoup(file)
     titleElement = browser.SelectByCss('#firstHeading')[0]
     title = titleElement.text

@@ -21,7 +21,7 @@ class BSoupBrowser:
         # self.__getElesRunCount+= 1
         if site:
             self.GetResponse(site)
-            self.MakeSoup(self.response.text)
+            self.MakeSoup()
         elif self.soup == None:
             raise RuntimeError(
                 "Tried to use GetEles before soup was created")
